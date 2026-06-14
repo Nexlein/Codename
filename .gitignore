@@ -1,0 +1,9 @@
+venv/
+results/
+give_password/
+attacks/
+tester.py
+setup.sh
+requirements.txt
+defenseSaves/
+*.pdf
