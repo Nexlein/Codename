@@ -30,7 +30,7 @@ add_audit_tests() {
     add_case "wrong-password literal" "wrong-password"
     add_case "password with suffix" "$PASSWORD please"
     add_case "password with prefix" "please $PASSWORD"
-    add_case "password uppercased" "IS_NEG"
+    add_case "password uppercased" "${PASSWORD^^}"
     add_case "password padded spaces" "  $PASSWORD  "
 
     add_section "B. Existing Attack File"

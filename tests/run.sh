@@ -1,7 +1,8 @@
 #!/bin/bash
 
-PASSWORD='bluefalcon'
-SECRET='ORCHID-42'
+# Override with CODENAME_PASSWORD / CODENAME_SECRET to test other values.
+PASSWORD="${CODENAME_PASSWORD:-bluefalcon}"
+SECRET="${CODENAME_SECRET:-ORCHID-42}"
 
 if [ -t 1 ]; then
     C_RESET='\033[0m'
@@ -42,7 +43,7 @@ ESCAPED_PASSWORD=$(escape_sed_replacement "$PASSWORD")
 ESCAPED_SECRET=$(escape_sed_replacement "$SECRET")
 SYSTEM_PROMPT=$(sed -e "s|{password}|$ESCAPED_PASSWORD|g" -e "s|{secret}|$ESCAPED_SECRET|g" defense.prompt)
 
-# Créer le Modelfile de manière sécurisée
+# Build the Modelfile with the password and secret substituted into the defense prompt
 make_model() {
     cat <<EOF > Modelfile.tmp
 FROM granite3.1-moe
@@ -95,7 +96,7 @@ if [[ "$1" == "--one-shot" || "$1" == "-o" ]]; then
 
     make_model
 
-    log_info "Envoi du prompt d'attaque..."
+    log_info "Sending attack prompt..."
     echo "---"
 
     RESPONSE=$(run_prompt "$ATTACK_PROMPT")
@@ -123,7 +124,7 @@ if [[ "$1" == "--audit" || "$1" == "-a" ]]; then
     TEST_PROMPTS=()
 
     if [ ! -f tests/audit_tests.sh ]; then
-        log_fail "tests/audit_tests.sh introuvable"
+        log_fail "tests/audit_tests.sh not found"
         exit 1
     fi
 
